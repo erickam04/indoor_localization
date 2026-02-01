@@ -16,7 +16,11 @@ def visualize_result(env, solver, true_pos, est_pos):
 
     # Draw Beacons
     beacons = env.get_beacons()
-    ax.scatter(beacons[:, 0], beacons[:, 1], c='red', marker='^', s=150, label='Beacon', zorder=5)
+    ax.scatter(beacons[:, 0], beacons[:, 1], c='red', marker='^', s=100, label='Beacon')
+
+    # Plot wall
+    for w in env.walls:
+        plt.plot([w.p1[0], w.p2[0]], [w.p1[1], w.p2[1]], 'k-', linewidth=3, label='Wall' if w == env.walls[0] else "")
 
     # True and Est positions
     ax.scatter(true_pos[0], true_pos[1], c='green', marker='*', s=250, label='True Position', zorder=6)
@@ -51,7 +55,7 @@ def run_test():
 
 
     # Initialize environment and Engine
-    env = IndoorNavigationEnv(cfg.ENV_CONFIG, cfg.BEACONS)
+    env = IndoorNavigationEnv(cfg.ENV_CONFIG, cfg.BEACONS, cfg.WALLS)
     solver = Fingerprint(env, cfg.FG_CONFIG)
 
     # Offline Phase
