@@ -17,7 +17,19 @@ BEACONS = [
     [10, 10]
 ]
 
-# Object/Wall Placement - TODO
+# Object/Wall Placement
+WALLS = [
+    [1.0, 9.0, 2.0, 9.0],
+    [1.0, 8.0, 2.0, 8.0],
+    [1.0, 9.0, 1.0, 8.0],
+    [2.0, 9.0, 2.0, 8.0],
+
+    [8.0, 1.0, 8.0, 2.0],
+    [9.0, 1.0, 9.0, 2.0],
+    [8.0, 1.0, 9.0, 1.0],
+    [8.0, 2.0, 9.0, 2.0]
+]
+
 
 # Fingerprinting
 FG_CONFIG = {
@@ -26,5 +38,13 @@ FG_CONFIG = {
     "num_samples": 10   # 학습 시 샘플링 횟수
 }
 
-# True position
+# Test position
 TEST_POS = [3.5, 6.5]
+
+# Trajectory and time
+TRAJECTORY_CONFIG = {
+    "dt": 0.2,
+    "total_time": 10.0,
+    "start_pos": [1.0, 1.0],
+    "velocity": [0.8, 0.6]
+}
