@@ -33,7 +33,7 @@ WALLS = [
 
 # Fingerprinting
 FG_CONFIG = {
-    "grid_size": 1.0,   # 격자 간격 (m)
+    "grid_size": 1.0,   # 격자 간격
     "k": 3,             # KNN k값
     "num_samples": 10   # 학습 시 샘플링 횟수
 }
@@ -47,4 +47,13 @@ TRAJECTORY_CONFIG = {
     "total_time": 10.0,
     "start_pos": [1.0, 1.0],
     "velocity": [0.8, 0.6]
+}
+
+#Smoothing
+FILTER_CONFIG = {
+    # 0 : Exponential Moving Average
+    # 1 : Moving Average
+    "filter" : 1,
+    "alpha" : 0.15,
+    "window" : 7
 }
