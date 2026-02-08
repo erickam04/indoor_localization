@@ -4,6 +4,7 @@ import config as cfg
 from sim.env import IndoorNavigationEnv
 from alg.trilateration import Trilateration
 from alg.fingerprinting import Fingerprint
+from alg.smoothing import exponential_moving_average, moving_average
 
 def run_trajectory_test():
     #Initialization
@@ -41,6 +42,20 @@ def run_trajectory_test():
 
     # Convert list into numpy array
     true_path, tri_path, fg_path = map(np.array, [true_path, tri_path, fg_path])
+    
+    #Apply smoothing
+    alpha = cfg.FILTER_CONFIG["alpha"]
+    window = cfg.FILTER_CONFIG["window"]
+    filter = cfg.FILTER_CONFIG["filter"]
+
+    match filter:
+        case 0:
+            tri_smoothed = exponential_moving_average(tri_path, alpha)
+            fg_smoothed = exponential_moving_average(fg_path, alpha)
+        case 1:
+            tri_smoothed = moving_average(tri_path, window)
+            fg_smoothed = moving_average(fg_path, window)
+        
 
 
     plt.figure(figsize=(10, 8))
@@ -51,8 +66,8 @@ def run_trajectory_test():
 
     # Plot path
     plt.plot(true_path[:, 0], true_path[:, 1], 'g-', linewidth=2, label='True Path')
-    plt.plot(tri_path[:, 0], tri_path[:, 1], 'b--', alpha=0.6, label='Trilateration')
-    plt.plot(fg_path[:, 0], fg_path[:, 1], 'r--', alpha=0.6, label='Fingerprinting')
+    plt.plot(tri_smoothed[:, 0], tri_smoothed[:, 1], 'b--', alpha=0.6, label='Trilateration')
+    plt.plot(fg_smoothed[:, 0], fg_smoothed[:, 1], 'r--', alpha=0.6, label='Fingerprinting')
 
     # Plot beacons
     beacons = env.get_beacons()
