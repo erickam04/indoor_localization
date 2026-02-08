@@ -4,7 +4,7 @@ import config as cfg
 from sim.env import IndoorNavigationEnv
 from alg.trilateration import Trilateration
 from alg.fingerprinting import Fingerprint
-from alg.smoothing import exponential_moving_average, moving_average
+from alg.smoothing import exponential_moving_average, moving_average, calculate_mae
 
 def run_trajectory_test():
     #Initialization
@@ -52,13 +52,26 @@ def run_trajectory_test():
         case 0:
             tri_smoothed = exponential_moving_average(tri_path, alpha)
             fg_smoothed = exponential_moving_average(fg_path, alpha)
+
+            error = calculate_mae(true_path, tri_smoothed)
+            print(f"Trilateration MAE: {error:.2f} m")
+            error = calculate_mae(true_path, fg_smoothed)
+            print(f"Fingerprinting MAE: {error:.2f} m")
+            
+
         case 1:
             tri_smoothed = moving_average(tri_path, window)
             fg_smoothed = moving_average(fg_path, window)
+
+            error = calculate_mae(true_path, tri_smoothed)
+            print(f"Trilateration MAE: {error:.2f} m")
+            error = calculate_mae(true_path, fg_smoothed)
+            print(f"Fingerprinting MAE: {error:.2f} m")
         
-
-
+    
+    
     plt.figure(figsize=(10, 8))
+    
     
     # Plot wall
     for w in env.walls:
