@@ -31,8 +31,13 @@ def moving_average(raw, window):
     return smoothed
 
 
+def calculate_mae(true_path, estimated_path):
+    distances = np.linalg.norm(true_path - estimated_path, axis=1)
+    return np.mean(distances)
+
 
 
         
                    
     
+
